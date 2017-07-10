@@ -5,21 +5,22 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BestBuyCanadaPriceChecker"
         mc:Ignorable="d"
-        Title="Best Buy Canada Price Checker" Height="134.91" Width="274.668"
-        Closing="Window_Closing" ResizeMode="NoResize">
+        Title="Best Buy Canada Price Checker" Height="110.835" Width="304.648"
+        Closing="Window_Closing" ResizeMode="NoResize" ContentRendered="Window_ContentRendered">
     <Grid RenderTransformOrigin="0.518,0.305">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="82*"/>
-            <ColumnDefinition Width="165*"/>
+            <ColumnDefinition Width="72*"/>
+            <ColumnDefinition Width="227*"/>
         </Grid.ColumnDefinitions>
-        <TextBox Name="WebcodeTextBox" HorizontalAlignment="Left" Height="23" Margin="3,15,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="167" TextChanged="TextBox_TextChanged" KeyDown="WebcodeTextBox_KeyDown" Grid.Column="1">
+        <TextBox Name="WebcodeTextBox" HorizontalAlignment="Left" Height="30" Margin="0,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="183" KeyDown="WebcodeTextBox_KeyDown" Grid.Column="1">
             <TextBox.InputBindings>
                 <KeyBinding Key="Return" Command="{Binding Path=Button_Click}"/>
             </TextBox.InputBindings>
         </TextBox>
-        <Label Content="Webcode(s):" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Height="29" Width="75"/>
-        <Button Content="Enter" HorizontalAlignment="Left" Margin="3,43,0,0" VerticalAlignment="Top" Width="104" Click="Button_Click" Grid.Column="1" Height="22" RenderTransformOrigin="1.394,0.591"/>
-        <Button Content="Import CSV File..." Grid.Column="1" HorizontalAlignment="Left" Margin="3,75,0,0" VerticalAlignment="Top" Width="104" Click="Button_Click_1"/>
+        <Label Content="Webcode(s):" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Height="30" Width="75" Grid.ColumnSpan="2"/>
+        <Button Name="EnterButton" Content="Enter" HorizontalAlignment="Left" Margin="188,10,0,0" VerticalAlignment="Top" Width="34" Click="EnterButton_Click" Grid.Column="1" Height="30" RenderTransformOrigin="1.394,0.591"/>
+        <Button Name="ImportButton" Content="Import CSV File..." Grid.Column="1" HorizontalAlignment="Left" Margin="0,51,0,0" VerticalAlignment="Top" Width="102" Click="ImportButton_Click" Height="22" />
+        <Image HorizontalAlignment="Left" Height="62" VerticalAlignment="Top" Width="87" Margin="0,45,0,-24" Grid.ColumnSpan="2"/>
 
     </Grid>
 </Window>

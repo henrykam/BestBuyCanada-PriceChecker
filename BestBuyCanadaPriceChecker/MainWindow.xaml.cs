@@ -20,7 +20,7 @@ using System.Windows.Shapes;
 
 namespace BestBuyCanadaPriceChecker
 {
-
+    //
     public delegate void OnLoadProductsCompleted(object sender, ProgressChangedEventArgs e);
 
     /// <summary>
@@ -85,7 +85,7 @@ namespace BestBuyCanadaPriceChecker
 
 
         [STAThread]
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void EnterButton_Click(object sender, RoutedEventArgs e)
         {
             _loadingWindow = new LoadingWindow();
             _loadingWindow.Show();
@@ -153,48 +153,10 @@ namespace BestBuyCanadaPriceChecker
 
                 });
 
-                /*
-                for (int i = 0; i < values.Length; i++)
-                {
-                    var webcodeEntry = values[i];
-                    try
-                    {
-                        
-                        if (!hashSet.Add(webcodeEntry))
-                        {
-                            // handle duplicate
-                            products.Add(new Product() { Id = webcodeEntry, Error = "Duplicate" });
-                            continue;
-                        }                        
-
-                        var product = Lookup(webcodeEntry);
-
-
-
-                        products.Add(product);
-                    }
-                    catch (Exception ex)
-                    {
-                        products.Add(new Product() { Id = webcodeEntry, Error = "Unknown error: " + ex.Message });
-                        continue;
-                    }
-
-                    int percentageProgress = (int)(i*100.0 / (double)values.Length);
-                    (sender as BackgroundWorker).ReportProgress(percentageProgress);
-                }
-                */
-
-
                 e.Result = products.ToList();
             }
         }
 
-
-
-        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
-        }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
@@ -205,11 +167,16 @@ namespace BestBuyCanadaPriceChecker
         {
             if(e.Key == Key.Return)
             {
-                Button_Click(sender, e);
+                EnterButton_Click(sender, e);
             }
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        private void Window_ContentRendered(object sender, EventArgs e)
+        {
+            WebcodeTextBox.Focus();
+        }
+
+        private void ImportButton_Click(object sender, RoutedEventArgs e)
         {
 
         }
