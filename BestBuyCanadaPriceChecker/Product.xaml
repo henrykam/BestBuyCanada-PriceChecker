@@ -1,0 +1,30 @@
+﻿<Window x:Class="BestBuyCanadaPriceChecker.ProductWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BestBuyCanadaPriceChecker"
+        mc:Ignorable="d"
+        Title="Product Details" Height="280.618" Width="631.179" ResizeMode="NoResize">
+    <Grid Margin="0,0,0,5">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="68"/>
+            <ColumnDefinition Width="224"/>
+        </Grid.ColumnDefinitions>
+        <Button Content="Thanks! :)" Height="20" Margin="225,218,-60,0" VerticalAlignment="Top" Grid.Column="1" RenderTransformOrigin="1.06,0.597" Click="Button_Click"/>
+        <Label Content="Id" HorizontalAlignment="Left" VerticalAlignment="Top" Height="26" Width="38"/>
+        <Label Content="Brand" HorizontalAlignment="Left" Margin="0,26,0,0" VerticalAlignment="Top" Height="26" Width="41"/>
+        <Label Content="Title" HorizontalAlignment="Left" Margin="0,52,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.095,0.262" Height="26" Width="38"/>
+        <Label Content="Web Price" HorizontalAlignment="Left" Margin="0,78,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.095,0.262" Height="26" Width="64"/>
+        <Label Content="Availability" HorizontalAlignment="Left" Margin="0,130,0,0" VerticalAlignment="Top" Height="26" Width="67"/>
+        <TextBox Name="IdText" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="0,2,-321,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="546" AllowDrop="False" IsReadOnly="True"/>
+        <TextBox Name="BrandText" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="0,28,-321,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="546" IsReadOnly="True"/>
+        <TextBox Name="TitleText" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="0,54,-321,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="546" IsReadOnly="True"/>
+        <TextBox Name="PriceText" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="0,80,-321,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="546" IsReadOnly="True"/>
+        <TextBox Name="AvailabilityText" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="0,132,-321,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="546" IsReadOnly="True"/>
+        <Label Content="Url" HorizontalAlignment="Left" Margin="0,156,0,0" VerticalAlignment="Top" Height="26" Width="67"/>
+        <TextBox x:Name="UrlText" Grid.Column="1" HorizontalAlignment="Left" Height="54" Margin="0,159,-321,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="546" IsReadOnly="True"/>
+
+
+    </Grid>
+</Window>

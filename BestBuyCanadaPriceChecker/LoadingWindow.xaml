@@ -1,0 +1,23 @@
+﻿<Window x:Class="BestBuyCanadaPriceChecker.LoadingWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BestBuyCanadaPriceChecker"
+        xmlns:wfi="clr-namespace:System.Windows.Forms.Integration;assembly=WindowsFormsIntegration"
+        xmlns:winForms="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
+        mc:Ignorable="d"
+        Title="Loading" Height="208.413" Width="275.788" ResizeMode="NoResize" Closing="Window_Closing" ContentRendered="Window_ContentRendered">
+    <Grid Margin="0,0,0,1">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <ProgressBar Name="Progress" Minimum="0" Maximum="100" Value="0" Height="27" Margin="10,10,10,0" VerticalAlignment="Top" IsIndeterminate="False" ValueChanged="Progress_ValueChanged"/>
+        <TextBlock x:Name="ProgressText" Text="Working hard: 0%" HorizontalAlignment="Left" Margin="10,37,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="26" Width="250"><InlineUIContainer>
+            </InlineUIContainer>
+        </TextBlock>
+        <wfi:WindowsFormsHost Margin="10,63,10,21" Width="250" Height="107">
+            <winForms:PictureBox x:Name="pictureBoxLoading" SizeMode="StretchImage"></winForms:PictureBox>
+        </wfi:WindowsFormsHost>
+    </Grid>
+</Window>

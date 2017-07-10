@@ -1,0 +1,13 @@
+﻿<Window x:Class="BestBuyCanadaPriceChecker.Products"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BestBuyCanadaPriceChecker"
+        mc:Ignorable="d"
+        Title="Products" Height="300" Width="810.559" ResizeMode="NoResize" SizeToContent="WidthAndHeight">
+    <Grid>
+        <DataGrid Name="DataGrid" HorizontalAlignment="Left" Height="270" VerticalAlignment="Top" Width="803" RowHeight="30" IsReadOnly="True" SelectionUnit="CellOrRowHeader"/>
+
+    </Grid>
+</Window>
