@@ -47,7 +47,7 @@ namespace BestBuyCanadaPriceChecker
 
         public async Task<Product> Lookup(string id)
         {
-            //https://quickresource.eyereturn.com/bestbuy/products/10406/10406783.json
+            
             var product = new Product();
             product.Id = id;
 
@@ -55,22 +55,22 @@ namespace BestBuyCanadaPriceChecker
             {
                 string url = _baseUrl + id.Substring(0, 5) + @"/" + id + ".json";
 
+                string crawlUrl = @"http://www.bestbuy.ca/en-CA/Search/SearchResults.aspx?&query=" + id;
+
                 try
                 {
+                    
                     RestClient client = new RestClient(url);
-
                     var res = await client.ExecuteGetTaskAsync(new RestRequest() { OnBeforeDeserialization = resp => { resp.ContentType = "application/json"; } }).ConfigureAwait(false);
                     product = JsonConvert.DeserializeObject<Product>(res.Content, new JsonSerializerSettings { ContractResolver = new DefaultContractResolver() { NamingStrategy = new SnakeCaseNamingStrategy() } });
-
-                    //crawl
-                    var crawlUrl = product.Link;
+                    
                     RestClient crawlClient = new RestClient(crawlUrl);
                     var page = await crawlClient.ExecuteGetTaskAsync(new RestRequest() { OnBeforeDeserialization = resp => { resp.ContentType = "text/html"; } }).ConfigureAwait(false);
 
                     var parser = new HtmlParser();
                     var doc = parser.Parse(page.Content);
 
-                    var webPrice = doc.All.Where(m => m.ClassName == "amount").FirstOrDefault();
+                    var webPrice = doc.All.FirstOrDefault(m => m.ClassName == "amount" && m.TagName == "SPAN");
                     product.WebPrice = webPrice.TextContent;
                     return product;
                 }
