@@ -17,9 +17,9 @@ namespace BestBuyCanadaPriceChecker
     /// <summary>
     /// Interaction logic for Products.xaml
     /// </summary>
-    public partial class Products : Window
+    public partial class ProductsWindow : Window
     {
-        public Products()
+        public ProductsWindow()
         {
             InitializeComponent();
             WindowStartupLocation = WindowStartupLocation.CenterScreen;

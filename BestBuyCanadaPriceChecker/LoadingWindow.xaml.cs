@@ -43,19 +43,10 @@ namespace BestBuyCanadaPriceChecker
             //Resource1.fliptable.
         }
 
-        public void worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
-        {
-            Progress.Value = e.ProgressPercentage;
-            ProgressText.Text = "Working hard: " + Progress.Value.ToString() +"%";
-            //Progress.Dispatcher.Invoke(() => Progress.Value = e.ProgressPercentage, DispatcherPriority.Background);
-        }
 
         private void Progress_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            if (e.NewValue == 100)
-            {
-                Close();
-            }
+            ProgressText.Text = "Working hard: " + Progress.Value.ToString() + "%";
         }
 
 
