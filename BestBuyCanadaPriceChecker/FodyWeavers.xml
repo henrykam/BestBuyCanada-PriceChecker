@@ -5,6 +5,7 @@
       AngleSharp
       RestSharp
       Newtonsoft.Json
+      CsvHelper
     </IncludeAssemblies>
   </Costura>
 </Weavers>
