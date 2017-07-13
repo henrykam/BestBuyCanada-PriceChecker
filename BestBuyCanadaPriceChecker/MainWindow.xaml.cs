@@ -41,7 +41,7 @@ namespace BestBuyCanadaPriceChecker
         {
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
             InitializeComponent();
-
+            System.Windows.Application.Current.ShutdownMode = ShutdownMode.OnMainWindowClose;
         }
 
         public async Task<Product> Lookup(string id, CancellationToken token)
@@ -158,6 +158,7 @@ namespace BestBuyCanadaPriceChecker
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            
             System.Windows.Application.Current.Shutdown();
         }
 
@@ -243,6 +244,7 @@ namespace BestBuyCanadaPriceChecker
             productsWindow.Topmost = true;
             return productsWindow;
         }
+
 
     }
 }

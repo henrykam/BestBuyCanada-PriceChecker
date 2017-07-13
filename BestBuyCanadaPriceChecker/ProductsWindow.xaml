@@ -5,9 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BestBuyCanadaPriceChecker"
         mc:Ignorable="d"
-        Title="Products" Height="300" Width="810.559" ResizeMode="NoResize" SizeToContent="WidthAndHeight">
+        Title="Products" Height="300" Width="813" SizeToContent="WidthAndHeight" ResizeMode="CanResizeWithGrip" MaxWidth="{DynamicResource {x:Static SystemParameters.FullPrimaryScreenWidthKey}}" MaxHeight="{DynamicResource {x:Static SystemParameters.FullPrimaryScreenHeightKey}}" WindowStyle="ThreeDBorderWindow" ScrollViewer.HorizontalScrollBarVisibility="Auto">
     <Grid>
-        <DataGrid Name="DataGrid" HorizontalAlignment="Left" Height="270" VerticalAlignment="Top" Width="803" RowHeight="30" IsReadOnly="True" SelectionUnit="CellOrRowHeader"/>
+        <DataGrid Name="DataGrid" RowHeight="30" IsReadOnly="True" SelectionUnit="CellOrRowHeader" MaxColumnWidth="500"/>
 
     </Grid>
 </Window>
