@@ -19,10 +19,12 @@ namespace BestBuyCanadaPriceChecker
     /// </summary>
     public partial class ErrorModalWindow : Window
     {
-        public ErrorModalWindow()
+        public ErrorModalWindow(string message)
         {
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            
             InitializeComponent();
+            Message.Text = message;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

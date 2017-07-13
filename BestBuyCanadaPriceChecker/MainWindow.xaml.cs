@@ -30,40 +30,37 @@ namespace BestBuyCanadaPriceChecker
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    
+
     public partial class MainWindow : Window
     {
-        
+
         private static string _baseUrl = @"https://quickresource.eyereturn.com/bestbuy/products/";
         private LoadingWindow _loadingWindow;
-        private ProductsWindow _productsWindow;
 
         public MainWindow()
         {
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
             InitializeComponent();
 
-        }        
+        }
 
-        public async Task<Product> Lookup(string id)
+        public async Task<Product> Lookup(string id, CancellationToken token)
         {
-            
+
             var product = new Product();
             product.Id = id;
 
             if (int.TryParse(id, out int i) && id.Length == 8)
             {
                 string url = _baseUrl + id.Substring(0, 5) + @"/" + id + ".json";
-
                 string crawlUrl = @"http://www.bestbuy.ca/en-CA/Search/SearchResults.aspx?&query=" + id;
 
                 try
                 {
-                    
                     RestClient client = new RestClient(url);
                     var res = await client.ExecuteGetTaskAsync(new RestRequest() { OnBeforeDeserialization = resp => { resp.ContentType = "application/json"; } }).ConfigureAwait(false);
                     product = JsonConvert.DeserializeObject<Product>(res.Content, new JsonSerializerSettings { ContractResolver = new DefaultContractResolver() { NamingStrategy = new SnakeCaseNamingStrategy() } });
-                    
+
                     RestClient crawlClient = new RestClient(crawlUrl);
                     var page = await crawlClient.ExecuteGetTaskAsync(new RestRequest() { OnBeforeDeserialization = resp => { resp.ContentType = "text/html"; } }).ConfigureAwait(false);
 
@@ -95,23 +92,19 @@ namespace BestBuyCanadaPriceChecker
             _loadingWindow.Show();
             this.Hide();
 
+            IProgress<int> progress = new Progress<int>(percent => _loadingWindow.Progress.Value = percent);
 
-            IProgress<int> progress = new Progress<int>(percent=>_loadingWindow.Progress.Value = percent);
-
-            string s = WebcodeTextBox.Text.Trim();            
+            string s = WebcodeTextBox.Text.Trim();
             string[] values = s.Split(',', ';', ' ');
 
             var res = await OnLoadProducts(values.ToList(), progress);
 
-            _productsWindow = new ProductsWindow();
-            _productsWindow.Populate(res);
-            _productsWindow.Show();
+            CreateAndShowProductsWindow(res);
             _loadingWindow.Hide();
-            this.Show();            
+            this.Show();
         }
 
         /*
-
         private void Finish(object sender, RunWorkerCompletedEventArgs e)
         {
             _loadingWindow.Hide();
@@ -127,18 +120,21 @@ namespace BestBuyCanadaPriceChecker
         {
             // Remove spaces
 
-            HashSet<string> hashSet = new HashSet<string>();
-
             if (webCodes.Any())
             {
+
+                // Define the cancellation token.
+                CancellationTokenSource source = new CancellationTokenSource();
+                CancellationToken token = source.Token;
+
                 Product[] products = new Product[webCodes.Count];
                 int doneCount = 0;
 
                 var tasks = new Dictionary<Task<Product>, int>();
 
-                for(int i=0;i<products.Length;i++)
+                for (int i = 0; i < products.Length; i++)
                 {
-                    tasks.Add(Lookup(webCodes[i]), i);
+                    tasks.Add(Lookup(webCodes[i], token), i);
                 }
 
                 // Report progress
@@ -167,7 +163,7 @@ namespace BestBuyCanadaPriceChecker
 
         private void WebcodeTextBox_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
-            if(e.Key == Key.Return)
+            if (e.Key == Key.Return)
             {
                 EnterButton_Click(sender, e);
             }
@@ -182,49 +178,49 @@ namespace BestBuyCanadaPriceChecker
         {
             var dialog = new OpenFileDialog();
             dialog.Filter = "CSV files (*.csv)|*.csv";
-            //dialog.FileOk += CsvFileSelected;
-            dialog.ShowDialog();
-            var stream = dialog.OpenFile();
-            StreamReader reader = new StreamReader(stream);
-            var webcodes = ReadWebcodesFromCsv(reader);
 
-            _loadingWindow = new LoadingWindow();
-            _loadingWindow.Show();
-            this.Hide();
+            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
 
-            IProgress<int> progress = new Progress<int>(percent => _loadingWindow.Progress.Value = percent);
+                try
+                {
+                    var stream = dialog.OpenFile();
+                    if (stream.CanRead)
+                    {
+                        StreamReader reader = new StreamReader(stream);
+                        var webcodes = ReadWebcodesFromCsv(reader);
 
-            string s = WebcodeTextBox.Text.Trim();
-            string[] values = s.Split(',', ';', ' ');
+                        _loadingWindow = new LoadingWindow();
+                        _loadingWindow.Show();
+                        this.Hide();
 
-            var res = await OnLoadProducts(webcodes, progress);
+                        IProgress<int> progress = new Progress<int>(percent => _loadingWindow.Progress.Value = percent);
 
-            _productsWindow = new ProductsWindow();
-            _productsWindow.Populate(res);
-            _productsWindow.Show();
-            _loadingWindow.Hide();
-            this.Show();           
+                        string s = WebcodeTextBox.Text.Trim();
+                        string[] values = s.Split(',', ';', ' ');
+
+                        var res = await OnLoadProducts(webcodes, progress);
+
+                        CreateAndShowProductsWindow(res);
+                        _loadingWindow.Hide();
+                        this.Show();
+                    }
+                    else
+                    {
+                        new ErrorModalWindow("Error opening the file!").ShowDialog();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    new ErrorModalWindow(ex.Message).ShowDialog();
+                }
+            }
         }
 
-        private void CsvFileSelected(object sender, CancelEventArgs e)
-        {
-            _loadingWindow = new LoadingWindow();
-            _loadingWindow.Show();
-            this.Hide();
-                        
-            _productsWindow = new ProductsWindow();
-            
-            //_productsWindow.Populate(res);
-            _productsWindow.Show();
-            _loadingWindow.Hide();
-            this.Show();
-        }
 
         private List<string> ReadWebcodesFromCsv(StreamReader stream)
         {
             var webcodes = new List<string>();
-
-            //CsvReader reader = new CsvReader(stream, new CsvHelper.Configuration.CsvConfiguration { HasHeaderRecord = false });
             var parser = new CsvParser(stream);
             while (true)
             {
@@ -236,10 +232,16 @@ namespace BestBuyCanadaPriceChecker
 
                 webcodes.Add(row[0]);
             }
-            //var webcodes = .GetRecords<string>();
-
-
             return webcodes;
+        }
+
+        private ProductsWindow CreateAndShowProductsWindow(List<Product> products)
+        {
+            var productsWindow = new ProductsWindow();
+            productsWindow.Populate(products);
+            productsWindow.Show();
+            productsWindow.Topmost = true;
+            return productsWindow;
         }
 
     }
